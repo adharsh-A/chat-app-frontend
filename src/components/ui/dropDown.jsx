@@ -9,9 +9,13 @@
     } from "@/components/ui/dropdown-menu";
 import { Button } from "./button";
 import { House, LogOutIcon, Menu, Store, StoreIcon, UserPen } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/authSlice";
 
-
-    export const DropDown = ({className}) => {
+export const DropDown = ({ className }) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     return (
         <>
 
@@ -23,10 +27,10 @@ import { House, LogOutIcon, Menu, Store, StoreIcon, UserPen } from "lucide-react
             <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem><House strokeWidth={0.75} />Home</DropdownMenuItem>
-            <DropdownMenuItem><UserPen strokeWidth={0.75} />Profile</DropdownMenuItem>
-            <DropdownMenuItem><StoreIcon strokeWidth={0.75} />About</DropdownMenuItem>
-            <DropdownMenuItem><LogOutIcon strokeWidth={0.75} />Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/")}><House strokeWidth={0.75} />Home</DropdownMenuItem>
+            <DropdownMenuItem onClick={()=> navigate("/profile")}><UserPen strokeWidth={0.75} />Profile</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate("/about")}><StoreIcon strokeWidth={0.75} />About</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => dispatch(logout())}><LogOutIcon strokeWidth={0.75} />Logout</DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
         </>
