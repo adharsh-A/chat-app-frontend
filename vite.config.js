@@ -3,6 +3,11 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      external: ['src/hooks/useSocketEvents.js'],
+    },
+  },  
   css: {
     postcss: "./postcss.config.js", // Ensure this file exists and is configured correctly
   },
