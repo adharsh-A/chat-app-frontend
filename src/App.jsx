@@ -31,8 +31,9 @@ function App() {
     setIsMobile(windowSize);
   }, []);
   return (
-    <SocketProvider>
-    <BrowserRouter>
+    <>
+    <SocketProvider >
+      <BrowserRouter>
       <Suspense fallback={<Loader />}>
         <Navbar />
         <Suspense fallback={<Loader />}>
@@ -51,6 +52,7 @@ function App() {
       <Toaster richColors expand={isMobile ? false : true} position={isMobile ? 'top-center' : 'bottom-right'} />
       </BrowserRouter>
     </SocketProvider>
+    </>
   )
 }
 
