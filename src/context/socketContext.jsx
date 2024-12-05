@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 
-const SocketContext = createContext();
+export const SocketContext = createContext(null);
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
@@ -28,12 +28,7 @@ export const SocketProvider = ({ children }) => {
         newSocket.emit('authenticate', id );
 
       });
-      newSocket.on('notification', (data) => {
-        toast(data.message, {
-          description: data.description,
-          type: data.type || 'info',
-        });
-      });
+
 
       newSocket.on('connect_error', (error) => {
         // console.error('Socket connection error:', error);

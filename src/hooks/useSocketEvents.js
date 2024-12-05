@@ -1,4 +1,4 @@
-import { useSocket } from "../context/socketContext.js";
+import { useSocket } from "@/context/socketContext.jsx";
 export const useSocketEvents = () => {
     const socket = useSocket();
   
