@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { MessageCircle, Send, Plus } from "lucide-react";
 import Loader from "@/components/ui/Loader";
 import CreateDialog from "@/components/ui/CreateDialog";
-import { useSocketEvents } from "../hooks/useSocketEvents.js"
+import { useSocketEvents } from "src/hooks/useSocketEvents.js"
 import { DropDown } from "@/components/ui/dropDown.jsx";
 
 // Configure axios base URL
