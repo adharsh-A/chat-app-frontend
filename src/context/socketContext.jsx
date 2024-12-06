@@ -69,7 +69,6 @@ export const useSocket = () => {
   const socket = useContext(SocketContext);
   if (!socket) {
     toast.error('useSocket must be used within a SocketProvider');
-    throw new Error('useSocket must be used within a SocketProvider');
   }
   return socket;
 };

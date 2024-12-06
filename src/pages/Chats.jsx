@@ -5,12 +5,12 @@ import { toast } from "sonner";
 import { MessageCircle, Send, Plus } from "lucide-react";
 import Loader from "@/components/ui/Loader";
 import CreateDialog from "@/components/ui/CreateDialog";
-import { useSocketEvents } from "@/hooks/useSocketEvents.js"
+import { useSocketEvents } from "@/hooks/useSocketEvents.js";
 import { DropDown } from "@/components/ui/dropDown.jsx";
 
 // Configure axios base URL
-axios.defaults.baseURL = `${import.meta.env.VITE_BACKEND}chat`
- || "http://localhost:3000/api/chat";
+axios.defaults.baseURL =
+  `${import.meta.env.VITE_BACKEND}chat` || "http://localhost:3000/api/chat";
 
 const Chats = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,56 +20,54 @@ const Chats = () => {
   const [newMessage, setNewMessage] = useState("");
   const { subscribeToEvent, emitEvent } = useSocketEvents();
   const [searchUsername, setSearchUsername] = useState("");
-  
+
   const messageEndRef = useRef(null);
   const messageInputRef = useRef(null);
 
   //scrooll to new message
-  
+
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]); // Run only when messages change
-  
 
   const currentUserId = useSelector((state) => state.auth.id);
   useEffect(() => {
     subscribeToEvent("newMessage", (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
-    })
-  }, [currentUserId])
+    });
+  }, [currentUserId]);
 
   const [originalConversations, setOriginalConversations] = useState([]); // Store the original conversations
 
   const filterConversations = (conversations, value) => {
     return conversations.filter((conversation) =>
-      conversation.receivers.some((participant) =>
-        participant.username.toLowerCase().includes(value.toLowerCase()) // Case-insensitive search
+      conversation.receivers.some(
+        (participant) =>
+          participant.username.toLowerCase().includes(value.toLowerCase()) // Case-insensitive search
       )
     );
   };
-  
+
   const handleInputChange = (event) => {
     const value = event.target.value;
-  
+
     setSearchUsername(value); // Update the search term state
-  
+
     setConversations((prevConversations) => {
       if (value === "") {
         // If the search input is cleared, return the original list of conversations
         return originalConversations;
       }
-  
+
       // If there is a search term, filter the conversations
       return filterConversations(originalConversations, value);
     });
   };
-  
+
   const loadConversations = (conversations) => {
     setOriginalConversations(conversations); // Store the original conversations
     setConversations(conversations); // Set the conversations initially
   };
-  ;
-
   useEffect(() => {
     const fetchConversations = async () => {
       try {
@@ -84,12 +82,12 @@ const Chats = () => {
             messages: conv.messages || [],
           })
         );
-  
+
         loadConversations(processedConversations);
         setTimeout(() => {
-          console.log("processedConversations",processedConversations);
+          // console.log("processedConversations", processedConversations);
           setSelectedConversation(processedConversations[0]);
-        },500)
+        }, 500);
         // setSelectedConversation();
       } catch (error) {
         toast.error("Failed to fetch conversations");
@@ -144,10 +142,11 @@ const Chats = () => {
       const response = await axios.post("/conversations", {
         participantIds: [currentUserId, otherUserId],
       });
+      console.log("created conversation:", response.data.conversation);
       setConversations([...conversations, response.data.conversation]);
       setSelectedConversation(response.data.conversation);
     } catch (error) {
-      toast.error("Failed to create conversation");
+      return;
     }
   };
 
@@ -188,7 +187,6 @@ const Chats = () => {
               onCreateConversation={handleCreateConversation}
               currentUserId={currentUserId}
             />
-
           </div>
 
           {/* Search Bar */}
@@ -218,11 +216,21 @@ const Chats = () => {
                     if (messageInputRef.current) {
                       messageInputRef.current.focus();
                     }
-                   }}
-                  
+                  }}
                 >
                   <div className="w-12 h-12 bg-[#3b5560] rounded-full flex items-center justify-center mr-4">
-                    {conversation?.receivers[0].avatar ? <img src={conversation?.receivers[0].avatar} alt="Avatar" className="w-full h-full rounded-full" /> : <MessageCircle size={24} className="text-[#8696a0]" />}
+                    {conversation?.receivers &&
+                      conversation.receivers.length > 0 &&
+                      
+                    conversation.receivers[0]?.avatar ? (
+                      <img
+                        src={conversation.receivers[0].avatar }
+                        alt="Avatar"
+                        className="w-full h-full rounded-full"
+                      />
+                    ) : (
+                      <MessageCircle size={24} className="text-[#8696a0]" />
+                    )}
                   </div>
                   <div className="flex-grow">
                     <p className="font-semibold">
@@ -238,7 +246,8 @@ const Chats = () => {
                       conversation.messages.length > 0 && (
                         <p className="text-sm text-[#8696a0] truncate">
                           {/* {conversation.messages[0].content !== null ? conversation.messages[0].content : 'No messages yet'} */}
-                          {conversation.messages[0].content || "No messages yet"}
+                          {conversation.messages[0].content ||
+                            "No messages yet"}
                         </p>
                       )}
                   </div>
@@ -269,26 +278,34 @@ const Chats = () => {
               {/* Chat Header */}
               <div className="bg-[#202c33] p-4 flex items-center justify-between pr-9">
                 <div className="flex items-center">
-
-                <div className="w-12 h-12 bg-[#3b5560] rounded-full flex items-center justify-center mr-4">
-                {selectedConversation?.receivers[0].avatar ? <img src={selectedConversation?.receivers[0].avatar} alt="Avatar" className="w-full h-full rounded-full" /> : <MessageCircle size={24} className="text-[#8696a0]" />}
+                  <div className="w-12 h-12 bg-[#3b5560] rounded-full flex items-center justify-center mr-4">
+                    {selectedConversation?.receivers &&
+                      selectedConversation.receivers.length > 0 &&
+                      selectedConversation?.receivers[0].avatar ? (
+                      <img
+                        src={selectedConversation?.receivers[0].avatar}
+                        alt="Avatar"
+                        className="w-full h-full rounded-full"
+                      />
+                    ) : (
+                      <MessageCircle size={24} className="text-[#8696a0]" />
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-semibold">
+                      {selectedConversation.receivers &&
+                      selectedConversation.receivers.length > 0
+                        ? selectedConversation.receivers[0]?.username
+                        : currentUserId ===
+                          selectedConversation.participants[0]?.id
+                        ? selectedConversation.participants[1]?.username
+                        : selectedConversation.participants[0]?.username ||
+                          "Unknown Participant"}
+                    </p>
+                  </div>
                 </div>
                 <div>
-                  <p className="font-semibold">
-                    {selectedConversation.receivers &&
-                    selectedConversation.receivers.length > 0
-                    ? selectedConversation.receivers[0]?.username
-                    : currentUserId ===
-                    selectedConversation.participants[0]?.id
-                    ? selectedConversation.participants[1]?.username
-                    : selectedConversation.participants[0]?.username ||
-                    "Unknown Participant"}
-                  </p>
-                </div>
-                    </div>
-                <div>
-
-                <DropDown  />
+                  <DropDown />
                 </div>
               </div>
 
@@ -326,8 +343,8 @@ const Chats = () => {
                     </div>
                   </div>
                 ))}
-                    {/* Ref for the last element to scroll into view */}
-      <div ref={messageEndRef} />
+                {/* Ref for the last element to scroll into view */}
+                <div ref={messageEndRef} />
               </div>
 
               {/* Message Input */}
