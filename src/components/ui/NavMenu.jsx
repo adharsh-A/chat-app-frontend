@@ -7,7 +7,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "./button";
 import {
   House,
   LogOutIcon,
@@ -20,20 +19,14 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/authSlice";
 
-export const DropDown = ({ className }) => {
+export const NavMenu = ({ className }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return (
     <>
       <DropdownMenu className="ml-8">
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            className="hover:bg-white/10 active:bg-white/20 font-inherit"
-          >
-            <Menu size={28} color="#ffffff" strokeWidth={1.25} />
-            Menu
-          </Button>
+            <Menu size={24} color="#ffffff" strokeWidth={1.5} className="cursor-pointer mr-2" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>

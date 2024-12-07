@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '@/redux/authSlice';
 import Modal from './Modal';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { NavMenu } from './NavMenu';
 
 
 function Navbar() {
@@ -153,7 +154,8 @@ function Navbar() {
             )}
           </Link>
         ))}
-      </div>
+{isAuthenticated &&        <NavMenu className="ml-auto" />
+}        </div>
       </div>
       {logoutDialog?<Modal isOpen={logoutDialog} text="Logout?" description="Are you sure you want to logout?" rightBtn="Yes" leftBtn="No" functionSubmit={handleLogout} handleClose={handleLogoutDialog} />: null}
     </>

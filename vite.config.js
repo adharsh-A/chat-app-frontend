@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { secureHeapUsed } from "crypto";
 
 export default defineConfig({
   build: {
@@ -20,12 +21,13 @@ export default defineConfig({
     
   },
   server: {
-    use: {
-      '/api': {
-        target: 'http://localhost:3000',
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000", // Backend URL
         changeOrigin: true,
+        secure: false,
       },
-    }
+  },
   },
   plugins: [react()],
 }); 

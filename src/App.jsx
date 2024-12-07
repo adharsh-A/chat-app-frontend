@@ -20,8 +20,10 @@ const Navbar = lazy(() => import('./components/ui/NavBar.jsx'))
 const Footer = lazy(() => import('./components/ui/Footer.jsx'))
 import { Toaster } from 'sonner'
 import Loader from './components/ui/Loader.jsx'
-import About from './pages/About.jsx'
 import { SocketProvider } from './context/socketContext.jsx'
+import About from './pages/About.jsx'
+import Profile from './pages/Profile.jsx'
+import { useSelector } from 'react-redux'
 
 function App() {
   const [isMobile, setIsMobile] = useState(false)
@@ -30,6 +32,7 @@ function App() {
     const windowSize = window.innerWidth < 768 ? true : false;
     setIsMobile(windowSize);
   }, []);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   return (
     <>
     <SocketProvider >
@@ -41,8 +44,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/chats" element={<Chats />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/about" element={<About />} />
+                <Route path="/login" element={<Login />} />
+{isAuthenticated &&                <Route path="/profile" element={<Profile />} />
+}            <Route path="/about" element={<About />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
