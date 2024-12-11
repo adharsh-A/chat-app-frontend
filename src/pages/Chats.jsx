@@ -11,7 +11,10 @@ import { DropDown } from "@/components/ui/dropDown.jsx";
 // Configure axios base URL
 axios.defaults.baseURL =
   `${import.meta.env.VITE_BACKEND}chat` || "http://localhost:3000/api/chat";
-
+  const token = localStorage.getItem('token'); 
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  }
 const Chats = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [conversations, setConversations] = useState([]);

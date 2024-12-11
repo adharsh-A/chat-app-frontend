@@ -8,6 +8,7 @@ const Login = lazy(() => import('./pages/Login.jsx'))
 const Signup = lazy(() => import('./pages/Signup.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword.jsx'))
+const ResetPassword = lazy(() => import('./pages/ResetPassword.jsx'))
 // import NotFound from './pages/NotFound.jsx'
 // import Signup from './pages/Signup.jsx'
 // import ForgotPassword from './pages/ForgotPassword.jsx'
@@ -25,6 +26,9 @@ import About from './pages/About.jsx'
 import Profile from './pages/Profile.jsx'
 import { useSelector } from 'react-redux'
 
+//error boundary
+const ErrorBoundary = lazy(() => import('./pages/ErrorBoundary.jsx'))
+
 function App() {
   const [isMobile, setIsMobile] = useState(false)
   //take width of device
@@ -38,7 +42,8 @@ function App() {
     <SocketProvider >
       <BrowserRouter>
       <Suspense fallback={<Loader />}>
-        <Navbar />
+            <Navbar />
+            <ErrorBoundary>
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -47,10 +52,13 @@ function App() {
                 <Route path="/login" element={<Login />} />
 {isAuthenticated &&                <Route path="/profile" element={<Profile />} />
 }            <Route path="/about" element={<About />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </Suspense>
+              </Suspense>
+        </ErrorBoundary>
         <Footer />
       </Suspense>
       <Toaster richColors expand={isMobile ? false : true} position={isMobile ? 'top-center' : 'bottom-right'} />

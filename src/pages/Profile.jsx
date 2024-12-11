@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Loader from "@/components/ui/Loader";
-import { head } from "axios";
 
 axios.defaults.baseURL = 
   import.meta.env.VITE_BACKEND 

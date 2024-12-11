@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   House,
+  KeyRound,
   LogOutIcon,
   Menu,
   Store,
@@ -22,6 +23,10 @@ import { logout } from "@/redux/authSlice";
 export const NavMenu = ({ className }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
   return (
     <>
       <DropdownMenu className="ml-8">
@@ -53,7 +58,14 @@ export const NavMenu = ({ className }) => {
             About
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => dispatch(logout())}
+            onClick={() => navigate("/forgot-password")}
+            className="cursor-pointer"
+          >
+            <KeyRound strokeWidth={0.75} />
+            Forget Password
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={handleLogout}
             className="cursor-pointer"
           >
             <LogOutIcon strokeWidth={0.75} />
