@@ -24,7 +24,7 @@ const Chats = () => {
   const [newMessage, setNewMessage] = useState("");
   const { subscribeToEvent, emitEvent } = useSocketEvents();
   const [searchUsername, setSearchUsername] = useState("");
-  const [isMobileConversationListVisible, setIsMobileConversationListVisible] = useState(true);
+  const [isMobileConversationListVisible, setIsMobileConversationListVisible] = useState(false);
 
   const messageEndRef = useRef(null);
   const messageInputRef = useRef(null);
