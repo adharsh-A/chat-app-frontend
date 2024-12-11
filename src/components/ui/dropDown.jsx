@@ -10,6 +10,7 @@ import {
 import { Button } from "./button";
 import {
   House,
+  KeyRound,
   LogOutIcon,
   Menu,
   Store,
@@ -60,7 +61,14 @@ export const DropDown = ({ className }) => {
             About
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => dispatch(logout())}
+            onClick={() => navigate("/forgot-password")}
+            className="cursor-pointer"
+          >
+            <KeyRound strokeWidth={0.75} />
+            Forget Password
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {dispatch(logout()); navigate("/login");}}
             className="cursor-pointer"
           >
             <LogOutIcon strokeWidth={0.75} />

@@ -10,15 +10,19 @@ axios.defaults.baseURL =
 function ForgotPassword({ mode }) {
   const [email, setEmail] = React.useState('');
   const [message, setMessage] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const response = await axios.post('/forget-password', { email });
       setMessage(response.data.message);
       toast.success(response.data.message);
     } catch (error) {
       console.log(error);
       setMessage('Error: Unable to send reset link.');
+    }finally{
+      setIsLoading(false);
     }
   };
   return (
@@ -54,6 +58,7 @@ function ForgotPassword({ mode }) {
               type="submit"
               className={`${mode === 'dark' ? 'bg-gradient-to-b from-gray-100 to-gray-300 text-black' : 'bg-gray-800 text-white'} w-full py-2 rounded-md hover:bg-gradient-to-r hover:bg-gray-900 focus:outline-none`}
               style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}
+              disabled={isLoading}
             >
               <span className="font-medium">Send Code</span>
             </button>

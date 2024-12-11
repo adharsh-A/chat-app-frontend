@@ -8,6 +8,7 @@ import { logout } from '@/redux/authSlice';
 import Modal from './Modal';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NavMenu } from './NavMenu';
+import { LibraryBig, LogIn, LogOut, MessageSquareMore } from 'lucide-react';
 
 
 function Navbar() {
@@ -36,14 +37,14 @@ function Navbar() {
 
   const tabs = [
     { name: 'Home', url: '/', icon: <GoHomeFill /> },
-    { name: 'Chats', url: '/chats', icon: <FaBriefcase /> },
-    { name: 'About', url: '/about', icon: <FaFileAlt /> },
+    { name: 'Chats', url: '/chats', icon: <MessageSquareMore size={16} /> },
+    { name: 'About', url: '/about', icon: <LibraryBig size={16} /> },
   ];
   if (!isAuthenticated) {
-    tabs.push({ name: 'Login', url: '/login', icon: <FaUser /> });
+    tabs.push({ name: 'Login', url: '/login', icon:<LogIn size={16} /> });
   }
   if(isAuthenticated){
-    tabs.push({ name: "Logout",icon:<FaUser />,isLogout:true });
+    tabs.push({ name: "Logout",icon:<LogOut size={16} />,isLogout:true });
   }
   const handleLogout = () => {
     setLogoutDialog(false);
