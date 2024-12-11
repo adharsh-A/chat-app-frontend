@@ -48,9 +48,8 @@ export default function Login() {
       setIsLoading(true);
       let response = await login(values).unwrap();
       // const response = await axios.post('http://localhost:3000/api/auth/login', values);
-      navigate('/');
       dispatch(setCredentials(response));
-  navigate("/");
+      navigate('/');
     
     } catch (error) {
       console.log("login error:", error);
