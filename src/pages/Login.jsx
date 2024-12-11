@@ -67,6 +67,7 @@ export default function Login() {
       setIsLoading(false);
     }
   }
+
   if(isLoading){
     return <Loader />;
   }
