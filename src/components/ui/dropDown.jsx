@@ -26,7 +26,7 @@ export const DropDown = ({ className }) => {
   const dispatch = useDispatch();
   return (
     <>
-      <DropdownMenu className="ml-8">
+      <DropdownMenu className="md:ml-8 ml-4">
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
