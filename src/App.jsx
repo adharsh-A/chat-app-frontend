@@ -9,14 +9,7 @@ const Signup = lazy(() => import('./pages/Signup.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword.jsx'))
 const ResetPassword = lazy(() => import('./pages/ResetPassword.jsx'))
-// import NotFound from './pages/NotFound.jsx'
-// import Signup from './pages/Signup.jsx'
-// import ForgotPassword from './pages/ForgotPassword.jsx'
-// import Navbar from './components/ui/NavBar.jsx'
-// import Home from './pages/Home.jsx'
-// import Chats from './pages/Chats.jsx'
-// import Footer from './components/ui/Footer.jsx' 
-// Lazy load UI components
+
 const Navbar = lazy(() => import('./components/ui/NavBar.jsx'))
 const Footer = lazy(() => import('./components/ui/Footer.jsx'))
 import { Toaster } from 'sonner'
@@ -25,11 +18,32 @@ import { SocketProvider } from './context/socketContext.jsx'
 import About from './pages/About.jsx'
 import Profile from './pages/Profile.jsx'
 import { useSelector } from 'react-redux'
+import { toast } from 'sonner'
 
 //error boundary
 const ErrorBoundary = lazy(() => import('./pages/ErrorBoundary.jsx'))
 
 function App() {
+  useEffect(() => {
+    const hasToastBeenShown = localStorage.getItem('serverRestartToastShown');
+    
+    if (!hasToastBeenShown) {
+      fetch("https://chat-app-backend-7mlw.onrender.com/")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Server not responding');
+        }
+      })
+      .catch(error => {
+        console.error('Failed to wake up server:', error);
+      });      toast.message('Server Restarting', {
+        description: 'if content does not load, wait 59 seconds for server to restart',
+      })
+      
+      // Mark that toast has been shown
+      localStorage.setItem('serverRestartToastShown', 'true');
+    }
+  }, []);
   const [isMobile, setIsMobile] = useState(false)
   //take width of device
   useEffect(() => {
@@ -37,6 +51,8 @@ function App() {
     setIsMobile(windowSize);
   }, []);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+
   return (
     <>
     <SocketProvider >

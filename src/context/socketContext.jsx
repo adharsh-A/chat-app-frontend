@@ -18,7 +18,7 @@ export const SocketProvider = ({ children }) => {
         transports: ['websocket'],
         reconnection: true,
         reconnectionAttempts: 5,
-        reconnectionDelay: 3000,
+        reconnectionDelay: 60000,
       });
 
       // Connection events
